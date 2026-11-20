@@ -156,6 +156,7 @@ def find_auth_file():
     candidates = [
         os.path.join(local, "CodeBuddyExtension", "Data", "Public", "auth", "workbuddy-desktop.info"),
         os.path.join(local, "workbuddy-desktop.info"),
+        os.path.join(home, "Library", "Application Support", "CodeBuddyExtension", "Data", "Public", "auth", "workbuddy-desktop.info"),
         os.path.join(home, "Library", "Application Support", "workbuddy-desktop.info"),
         os.path.join(home, ".config", "workbuddy-desktop.info"),
         os.path.join(home, ".workbuddy", "auth", "workbuddy-desktop.info"),
@@ -179,6 +180,15 @@ def find_runtime():
     for name in ("ProgramFiles", "ProgramFiles(x86)"):
         if os.environ.get(name):
             candidates.append(os.path.join(os.environ[name], "WorkBuddy", "WorkBuddy.exe"))
+    # macOS 常见路径
+    candidates.extend([
+        "/Applications/WorkBuddy.app/Contents/MacOS/Electron",
+        "/Applications/WorkBuddy.app/Contents/MacOS/WorkBuddy",
+        "/Applications/WorkBuddy AI.app/Contents/MacOS/Electron",
+        "/Applications/WorkBuddy AI.app/Contents/MacOS/WorkBuddy AI",
+        os.path.join(home, "Applications", "WorkBuddy.app", "Contents", "MacOS", "Electron"),
+        os.path.join(home, "Applications", "WorkBuddy AI.app", "Contents", "MacOS", "Electron"),
+    ])
     for path in candidates:
         if os.path.isfile(path):
             return os.path.abspath(path)
@@ -317,7 +327,7 @@ def main():
     if gh_repo and shutil.which("gh") is not None:
         # 明文 token 只作为 stdin 传给 gh，不出现在命令行与进程列表中
         proc = subprocess.run(
-            ["gh", "secret", "set", "WB_ACCESS_TOKEN", "--repo", gh_repo, "--body", "-"],
+            ["gh", "secret", "set", "WB_ACCESS_TOKEN", "--repo", gh_repo],
             input=token.encode("utf-8"),
             stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         )

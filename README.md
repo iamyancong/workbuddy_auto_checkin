@@ -170,7 +170,7 @@ python refresh_token.py
 | `WORKBUDDY_AUTH_FILE` | 覆盖凭据文件路径。用于非默认安装或凭据位置变动 |
 | `WORKBUDDY_EXE` | 覆盖客户端可执行文件路径。自动探测失败时使用 |
 
-凭据文件按 `%LOCALAPPDATA%\CodeBuddyExtension\Data\Public\auth\workbuddy-desktop.info` 探测；客户端按 `WORKBUDDY_EXE` → `%LOCALAPPDATA%\Programs\WorkBuddy\WorkBuddy.exe` → 常见盘根目录 → 注册表 `DisplayIcon` 的顺序探测。
+凭据文件按 Windows（`%LOCALAPPDATA%\CodeBuddyExtension\Data\Public\auth\workbuddy-desktop.info`）与 macOS（`~/Library/Application Support/CodeBuddyExtension/Data/Public/auth/workbuddy-desktop.info`）自动探测；客户端按 `WORKBUDDY_EXE` → 系统默认应用目录（Windows 的 `%LOCALAPPDATA%\Programs\WorkBuddy`、macOS 的 `/Applications/WorkBuddy.app`）→ 常见盘根目录 → 注册表 `DisplayIcon` 的顺序探测。
 
 ### 解密助手的超时策略
 
